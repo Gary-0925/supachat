@@ -35,8 +35,8 @@ async function sign_up() {
         if (error) {
             alert('错误：' + error.message);
         } else {
-            localStorage.setItem("name", userName);
-            localStorage.setItem("priKey", priKey);
+            localStorage.setItem("supa_name", userName);
+            localStorage.setItem("supa_priKey", priKey);
             alert('注册成功');
             window.location.reload();
         }
@@ -44,7 +44,7 @@ async function sign_up() {
 }
 
 async function load() {
-    if (localStorage.getItem("name") != null) {
+    if (localStorage.getItem("supa_name") != null) {
         window.location.replace("/supachat/message.html");
     } else {
         document.getElementById("titler").innerHTML = "注册";

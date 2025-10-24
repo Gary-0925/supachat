@@ -24,13 +24,13 @@ function verify_message(id, pubkey, info, sign) {
 }
 
 function sign_out() {
-    localStorage.removeItem("name");
-    localStorage.removeItem("priKey");
+    localStorage.removeItem("supa_name");
+    localStorage.removeItem("supa_priKey");
     window.location.reload();
 }
 
 async function load_list() {
-    if (localStorage.getItem("name") != null) {
+    if (localStorage.getItem("supa_name") != null) {
         const supabase = getClient();
         const titlerEl = document.getElementById('titler');
         const containerEl = document.getElementById('container');
@@ -52,7 +52,7 @@ async function load_list() {
         pageHTML += `
             <div class="card" style="width: 40%; position: fixed; right: 0; bottom: 0;">
                 <div class="card" style="width: 100px; text-align: center;">
-                    ${localStorage.getItem("name")}
+                    ${localStorage.getItem("supa_name")}
                     <a onclick="sign_out()">登出</a>
                 </div>
                 <textarea id="message_text" rows="10" style="width: 95%" placeholder="发布一条友好的发言吧"></textarea>
@@ -89,13 +89,13 @@ async function send_message() {
     try {
         const supabase = getClient();
         const messageId = -Date.now();
-        const userName = localStorage.getItem('name');
+        const userName = localStorage.getItem("supa_name");
         const messageInfo = document.getElementById('message_text').value;
         if (userName == null) alert('错误：未登录');
         else if (messageInfo == '') alert('错误：消息为空');
         else {
             const crypt = new JSEncrypt({ default_key_size: 2048 });
-            const priKey = localStorage.getItem('priKey');
+            const priKey = localStorage.getItem("supa_priKey");
             crypt.setPrivateKey(priKey);
             const messageSign = crypt.sign("[" + messageId.toString() + "]" + messageInfo, CryptoJS.SHA256, "sha256");
             const { data, error } = await supabase
